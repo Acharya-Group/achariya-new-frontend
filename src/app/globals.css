@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+body {
+  font-family: "Inter", sans-serif !important;
+}
+@layer utilities {
+  /* ========================
+     Responsive Fonts (px + clamp)
+     ======================== */
+  .font-sm {
+    font-size: clamp(14px, 2vw, 16px);
+  }
+  .font-md {
+    font-size: clamp(16px, 2.5vw, 18px);
+  }
+  .font-lg {
+    font-size: clamp(18px, 3vw, 20px);
+  }
+  .font-xl {
+    font-size: clamp(20px, 3vw, 24px);
+  }
+  .font-2xl {
+    font-size: clamp(24px, 4vw, 28px);
+  }
+  .font-3xl {
+    font-size: clamp(28px, 5vw, 36px);
+  }
+  .font-4xl {
+    font-size: clamp(36px, 6vw, 48px);
+  }
+
+  @layer utilities {
+  /* ========================
+     Text Colors
+     ======================== */
+  .text-primary { 
+    color: #261b7d; 
+  }
+  .text-secondary { 
+    color: #7a0706; 
+  }
+
+  /* ========================
+     Background Colors
+     ======================== */
+  .bg-primary { 
+    background-color: #261b7d; 
+  }
+  .bg-secondary { 
+    background-color: #7a0706; 
+  }
+  .bg-gray-50 {
+    background-color: rgba(38, 27, 125, 0.1);
+  }
+  .bg-secondary-50 {
+    background-color: rgba(122, 7, 6, 0.1);
+  }
+
+  /* Hover states */
+  .hover\:bg-primary:hover { 
+    background-color: #261b7d; 
+  }
+  .hover\:bg-secondary:hover { 
+    background-color: #7a0706; 
+  }
+}
+}
+
+
+
+/* testomional section */
+.testimonial-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 2px; /* Border thickness */
+  background: linear-gradient(270deg, #a855f7, #ec4899, #a855f7);
+  background-size: 600% 600%;
+}
+.testimonial-card:hover{
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.testimonial-card-inner {
+  background: #fff; 
+  border-radius: 14px; 
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes borderSpin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-borderSpin {
+  animation: borderSpin 6s linear infinite;
+}
+
+
+
+

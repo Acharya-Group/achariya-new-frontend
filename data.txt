@@ -1,0 +1,15 @@
+<div class="dropdown-menu" aria-labelledby="navbarBlog">
+                                  
+                                  <a class="dropdown-item" href="downloads/cogent.zip">Cogent Driver</a>
+                                  <a class="dropdown-item" href="downloads/Mantra_Iris.zip">Mantra Iris Driver</a>
+                                  <a class="dropdown-item" href="downloads/Mantra_MFS100.zip">Mantra MFS100 Driver</a>
+                                  <a class="dropdown-item" href="downloads/Mantra_MFS110.zip">Mantra MFS110 Driver</a>
+                                  <a class="dropdown-item" href="downloads/morpho.zip">Morpho Driver</a>
+                                  <a class="dropdown-item" href="downloads/starteck.zip">Starteck Driver</a>
+                                  <a class="dropdown-item" href="emitraCodeValidation.aspx">Kiosks Identity Card</a>
+                                  <a class="dropdown-item" href="emitra.aspx">E-Mitra Services Forms</a>
+                                  <a class="dropdown-item" href="downloads/Application%20Form%20For%20New%20e-Mitra%20Kiosk.pdf">Application Form For New e-Mitra Kiosk</a>
+                                  <a class="dropdown-item" href="downloads/rmgb_installation.docx">RMGB Installation Process</a>
+                                  <a class="dropdown-item" href="downloads/Windows_RDService_V2.0.1.42_HTTPs_127.0.0.1.zip">Windows RD Service V2.0.1</a>
+                                  <a class="dropdown-item" href="downloads/BOB_MorphoMSO1300Esetup 2.2.1.8_06July2017.zip">BOB Morpho MSO 1300 Esetup</a>
+                                </div>
