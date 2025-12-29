@@ -178,7 +178,14 @@ const OrdersPage: React.FC = () => {
   // ----------------------------
   // CSV Export (Dynamic multi-item)
   // ----------------------------
-  const maxItems = Math.max(...filteredOrders.map((o) => o.items?.length || 0));
+   const allStationeryTypes = Array.from(
+    new Set(
+      filteredOrders.flatMap(
+        (o) => o.items?.map((i) => i.type) || []
+      )
+    )
+  );
+
   const csvHeaders = [
     "Date",
     "Name",
@@ -190,15 +197,15 @@ const OrdersPage: React.FC = () => {
     "Address",
     "Pin",
     "Status",
-    ...Array.from({ length: maxItems }, (_, i) => `Item ${i + 1}`),
+    ...allStationeryTypes,
   ];
 
   const csvData = filteredOrders.map((o) => {
-    const row: Record<string, string> = {
-      Date: o.createdAt ? o.createdAt.split("T")[0] : "",
+    const row: Record<string, string | number> = {
+      Date: o.createdAt?.split("T")[0] ?? "",
       Name: o.name ?? "",
       Phone: o.phoneNo ?? "",
-      Amount: o.amount?.toString() ?? "",
+      Amount: o.amount ?? "",
       Payment: o.paymentStatus ?? "",
       TransactionID: o.transactionId ?? "",
       Kiosk: o.kioskId ?? "",
@@ -207,9 +214,13 @@ const OrdersPage: React.FC = () => {
       Status: o.status ?? "",
     };
 
-    for (let i = 0; i < maxItems; i++) {
-      row[`Item ${i + 1}`] = o.items?.[i] ? `${o.items[i].type} (${o.items[i].quantity})` : "";
-    }
+    // default 0
+    allStationeryTypes.forEach((t) => (row[t] = 0));
+
+    // fill actual quantities
+    o.items?.forEach((i) => {
+      row[i.type] = i.quantity;
+    });
 
     return row;
   });
@@ -306,60 +317,58 @@ const OrdersPage: React.FC = () => {
 
         {/* Orders Table */}
         <div className="overflow-x-auto">
-          <table className="min-w-[1500px] divide-y divide-gray-200 w-full">
-            <thead className="bg-secondary text-white">
+                  <table className="min-w-375 w-full border">
+            <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-2">
-                  <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
+                <th className="p-2">
+                  <input
+                    type="checkbox"
+                    checked={selectAll}
+                    onChange={toggleSelectAll}
+                  />
                 </th>
-                <th className="px-4 py-2 text-left">#</th>
-                <th className="px-4 py-2 text-left">Date</th>
-                <th className="px-4 py-2 text-left">Name</th>
-                <th className="px-4 py-2 text-left">Phone</th>
-                <th className="px-4 py-2 text-left">Amount</th>
-                <th className="px-4 py-2 text-left">Payment</th>
-                <th className="px-4 py-2 text-left">Txn ID</th>
-                <th className="px-4 py-2 text-left">Kiosk ID</th>
-                <th className="px-4 py-2 text-left">Address</th>
-                <th className="px-4 py-2 text-left">Pin</th>
-                <th className="px-4 py-2 text-left">Items</th>
-                <th className="px-4 py-2 text-left">Actions</th>
+                <th className="p-2">#</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Phone</th>
+                <th className="p-2">Amount</th>
+                <th className="p-2">Payment</th>
+                <th className="p-2">Kiosk</th>
+                <th className="p-2">Items</th>
+                <th className="p-2">Action</th>
               </tr>
             </thead>
 
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredOrders.map((order, index) => (
-                <tr key={order._id}>
-                  <td className="px-4 py-2">
+            <tbody>
+              {filteredOrders.map((o, i) => (
+                <tr key={o._id} className="border-t">
+                  <td className="p-2">
                     <input
                       type="checkbox"
-                      checked={selectedOrders.includes(order._id)}
-                      onChange={() => toggleSelectOrder(order._id)}
+                      checked={selectedOrders.includes(o._id)}
+                      onChange={() => toggleSelectOrder(o._id)}
                     />
                   </td>
-                  <td className="px-4 py-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                  <td className="px-4 py-2">{order.createdAt?.split("T")[0] ?? ""}</td>
-                  <td className="px-4 py-2">{order.name ?? ""}</td>
-                  <td className="px-4 py-2">{order.phoneNo ?? ""}</td>
-                  <td className="px-4 py-2">{order.amount ?? ""}</td>
-                  <td className="px-4 py-2">{order.paymentStatus ?? ""}</td>
-                  <td className="px-4 py-2">{order.transactionId ?? ""}</td>
-                  <td className="px-4 py-2">{order.kioskId ?? ""}</td>
-                  <td className="px-4 py-2">
-                    <div className="max-h-[100px] p-2 border rounded overflow-y-auto">{order.address ?? ""}</div>
+                  <td className="p-2">{i + 1}</td>
+                  <td className="p-2">
+                    {o.createdAt?.split("T")[0]}
                   </td>
-                  <td className="px-4 py-2">{order.pinCode ?? ""}</td>
-                  <td className="px-4 py-2">
-                    <ul className="list-disc pl-4">
-                      {order.items?.map((item, i) => (
-                        <li key={i}>{item.type} - {item.quantity}</li>
-                      )) ?? ""}
-                    </ul>
+                  <td className="p-2">{o.name}</td>
+                  <td className="p-2">{o.phoneNo}</td>
+                  <td className="p-2">₹{o.amount}</td>
+                  <td className="p-2">{o.paymentStatus}</td>
+                  <td className="p-2">{o.kioskId}</td>
+                  <td className="p-2">
+                    {o.items?.map((i, idx) => (
+                      <div key={idx}>
+                        {i.type} - {i.quantity}
+                      </div>
+                    ))}
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="p-2">
                     <button
-                      onClick={() => handleDelete(order._id)}
-                      className="p-2 bg-red-500 text-white rounded"
+                      onClick={() => handleDelete(o._id)}
+                      className="bg-red-500 text-white p-2 rounded"
                     >
                       <FaTrash />
                     </button>

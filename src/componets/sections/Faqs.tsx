@@ -23,7 +23,7 @@ export default function Faqs() {
                   data-aos="zoom-in"
                   data-aos-duration="2000"
                   key={index}
-                  className="bg-gradient-to-r from-[#261b7d] to-[#7a0706] px-4 py-3 rounded-lg cursor-pointer"
+                  className="bg-linear-to-r from-[#261b7d] to-[#7a0706] px-4 py-3 rounded-lg cursor-pointer"
                 >
                   <button
                     onClick={() => toggleFAQ(index)}
